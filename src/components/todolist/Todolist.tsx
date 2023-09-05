@@ -1,7 +1,8 @@
+import { KeyboardEventHandler, useRef } from "react";
 import { FilterValuesType } from "../../App";
 
 export type TaskType = {
-  id: number;
+  id: string;
   title: string;
   isDone: boolean;
 };
@@ -9,17 +10,39 @@ export type TaskType = {
 type PropsType = {
   title: string;
   tasks: Array<TaskType>;
-  removeTask: (id: number) => void;
+  removeTask: (id: string) => void;
   setFilter: (value: FilterValuesType) => void;
+  addTask: (title: string) => void;
 };
 
 const TodoList = (props: PropsType) => {
+  const inputRef = useRef<HTMLInputElement | null>(null);
+
+  const addTaskHandler = () => {
+    if (inputRef.current && inputRef.current.value.trim() !== "") {
+      props.addTask(inputRef.current.value);
+      inputRef.current.value = "";
+    } else {
+      alert("enter title please");
+    }
+  };
+
+  const enterKeyHandler: KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if (e.key === "Enter") {
+      addTaskHandler();
+    }
+  };
+
   return (
     <div>
       <h3>{props.title}</h3>
       <div>
-        <input type="text" />
-        <button>+</button>
+        <input
+          type="text"
+          ref={inputRef}
+          onKeyDown={enterKeyHandler}
+        />
+        <button onClick={addTaskHandler}>+</button>
         <ul>
           {props.tasks.map((item) => (
             <li key={item.id}>
