@@ -13,6 +13,7 @@ type PropsType = {
   removeTask: (id: string) => void;
   setFilter: (value: FilterValuesType) => void;
   addTask: (title: string) => void;
+  changeStatusTask: (taskId: string, isDone: boolean) => void;
 };
 
 const TodoList = (props: PropsType) => {
@@ -50,6 +51,7 @@ const TodoList = (props: PropsType) => {
                 type="checkbox"
                 //checked={item.isDone}
                 defaultChecked={item.isDone}
+                onChange={() => props.changeStatusTask(item.id, item.isDone)}
               />
               <span>{item.title}</span>
               <button onClick={() => props.removeTask(item.id)}>del</button>
