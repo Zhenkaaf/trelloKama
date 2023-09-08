@@ -5,3 +5,19 @@
 .App > div {
   margin-right: 50px;
 }
+.error {
+  border: 1px solid red;
+}
+.error__message {
+  color: red;
+  font-size: 12px;
+}
+ul {
+  list-style-type: none;
+}
+.active__filter {
+  background-color: orange;
+}
+.is__done {
+  opacity: 0.5;
+}
