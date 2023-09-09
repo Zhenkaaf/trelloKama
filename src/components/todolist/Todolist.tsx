@@ -10,11 +10,17 @@ export type TaskType = {
 type PropsType = {
   title: string;
   tasks: Array<TaskType>;
-  removeTask: (id: string) => void;
-  setFilter: (value: FilterValuesType) => void;
-  addTask: (title: string) => void;
-  changeStatusTask: (taskId: string, isDone: boolean) => void;
+  removeTask: (id: string, todoListId: string) => void;
+  changeFilter: (value: FilterValuesType, todoListId: string) => void;
+  addTask: (title: string, todoListId: string) => void;
+  changeStatusTask: (
+    taskId: string,
+    isDone: boolean,
+    todoListId: string
+  ) => void;
   filter: FilterValuesType;
+  id: string;
+  removeList: (todoListId: string) => void;
 };
 
 const TodoList = (props: PropsType) => {
@@ -23,7 +29,7 @@ const TodoList = (props: PropsType) => {
 
   const addTaskHandler = () => {
     if (inputRef.current && inputRef.current.value.trim() !== "") {
-      props.addTask(inputRef.current.value.trim());
+      props.addTask(inputRef.current.value.trim(), props.id);
       inputRef.current.value = "";
     } else {
       setError(true);
@@ -39,7 +45,10 @@ const TodoList = (props: PropsType) => {
 
   return (
     <div>
-      <h3>{props.title}</h3>
+      <h3>
+        {props.title}{" "}
+        <button onClick={() => props.removeList(props.id)}>DelList</button>
+      </h3>
       <div>
         <input
           type="text"
@@ -59,29 +68,33 @@ const TodoList = (props: PropsType) => {
                 type="checkbox"
                 //checked={item.isDone}
                 defaultChecked={item.isDone}
-                onChange={() => props.changeStatusTask(item.id, item.isDone)}
+                onChange={() =>
+                  props.changeStatusTask(item.id, item.isDone, props.id)
+                }
               />
               <span>{item.title}</span>
-              <button onClick={() => props.removeTask(item.id)}>Del</button>
+              <button onClick={() => props.removeTask(item.id, props.id)}>
+                Del
+              </button>
             </li>
           ))}
         </ul>
         <div>
           <button
             className={props.filter === "all" ? "active__filter" : ""}
-            onClick={() => props.setFilter("all")}
+            onClick={() => props.changeFilter("all", props.id)}
           >
             All
           </button>
           <button
             className={props.filter === "active" ? "active__filter" : ""}
-            onClick={() => props.setFilter("active")}
+            onClick={() => props.changeFilter("active", props.id)}
           >
             Active
           </button>
           <button
             className={props.filter === "completed" ? "active__filter" : ""}
-            onClick={() => props.setFilter("completed")}
+            onClick={() => props.changeFilter("completed", props.id)}
           >
             Completed
           </button>
