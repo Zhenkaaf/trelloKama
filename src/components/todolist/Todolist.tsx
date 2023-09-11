@@ -1,5 +1,5 @@
-import { KeyboardEventHandler, useRef, useState } from "react";
 import { FilterValuesType } from "../../App";
+import AddItemForm from "./AddItemForm";
 
 export type TaskType = {
   id: string;
@@ -22,25 +22,10 @@ type PropsType = {
   id: string;
   removeList: (todoListId: string) => void;
 };
-
+///////////////////////////////////////////////
 const TodoList = (props: PropsType) => {
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const [error, setError] = useState<boolean>(false);
-
-  const addTaskHandler = () => {
-    if (inputRef.current && inputRef.current.value.trim() !== "") {
-      props.addTask(inputRef.current.value.trim(), props.id);
-      inputRef.current.value = "";
-    } else {
-      setError(true);
-    }
-  };
-
-  const enterKeyHandler: KeyboardEventHandler<HTMLInputElement> = (e) => {
-    setError(false);
-    if (e.key === "Enter") {
-      addTaskHandler();
-    }
+  const addTaskWrapper = (title: string) => {
+    props.addTask(title, props.id);
   };
 
   return (
@@ -50,14 +35,7 @@ const TodoList = (props: PropsType) => {
         <button onClick={() => props.removeList(props.id)}>DelList</button>
       </h3>
       <div>
-        <input
-          type="text"
-          ref={inputRef}
-          onKeyDown={enterKeyHandler}
-          className={error ? "error" : ""}
-        />
-        <button onClick={addTaskHandler}>Add</button>
-        {error && <div className="error__message">Field is required</div>}
+        <AddItemForm addItem={addTaskWrapper} />
         <ul>
           {props.tasks.map((item) => (
             <li
