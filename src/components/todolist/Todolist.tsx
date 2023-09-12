@@ -1,5 +1,6 @@
 import { FilterValuesType } from "../../App";
 import AddItemForm from "./AddItemForm";
+import EditableSpan from "./EditableSpan";
 
 export type TaskType = {
   id: string;
@@ -50,7 +51,7 @@ const TodoList = (props: PropsType) => {
                   props.changeStatusTask(item.id, item.isDone, props.id)
                 }
               />
-              <span>{item.title}</span>
+              <EditableSpan title={item.title} />
               <button onClick={() => props.removeTask(item.id, props.id)}>
                 Del
               </button>
