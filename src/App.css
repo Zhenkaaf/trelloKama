@@ -1,4 +1,4 @@
-.App {
+/* .App {
   padding: 30px;
   display: flex;
 }
@@ -12,12 +12,29 @@
   color: red;
   font-size: 12px;
 }
-ul {
-  list-style-type: none;
-}
+
 .active__filter {
   background-color: orange;
 }
 .is__done {
   opacity: 0.5;
+} */
+.itemForm {
+  display: flex;
+}
+.AddBoxIcon::before {
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: -1;
+
+  width: 34px;
+  height: 34px;
+  margin: 2px 0px 0px 2px;
+}
+.AddBoxIcon:hover::before {
+  background-color: rgb(8, 245, 19);
+}
+ul {
+  list-style-type: none;
 }
